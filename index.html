@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusPlay - Download Premium Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c9;
+            --secondary: #a29bfe;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f6fa;
+            --accent: #4CAF50;
+            --gray: #dfe6e9;
+            --text: #e6e6e6;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--darker);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1001;
+        }
+        
+        .logo span {
+            color: var(--light);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.1);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.15);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(108, 92, 231, 0.1);
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Hero Section */
+        #home {
+            text-align: center;
+            padding: 140px 0 100px;
+            background: linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') no-repeat center/cover;
+            position: relative;
+        }
+        
+        #home h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        #home p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--gray);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        /* Games Section */
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .game-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(108, 92, 231, 0.3);
+        }
+        
+        .game-img {
+            height: 200px;
+            background: linear-gradient(45deg, #2c2c2c, #1f1f1f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 3rem;
+        }
+        
+        .game-content {
+            padding: 25px;
+        }
+        
+        .game-content h3 {
+            margin-bottom: 12px;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+        
+        .game-content p {
+            margin-bottom: 20px;
+            color: #b3b3b3;
+        }
+        
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* About Section */
+        #about {
+            background: var(--darker);
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+        
+        .about-content p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #2d2d2d;
+            color: white;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #999;
+            margin-bottom: 12px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d2d2d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+            z-index: 999;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Mobile Nav Button */
+        .mobile-nav-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            #home h1 {
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #home h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            /* Mobile Navigation */
+            .mobile-nav-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 300px;
+                height: 100vh;
+                background: var(--darker);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 15px;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 15px;
+                text-align: center;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .nav-links a:hover {
+                background: rgba(108, 92, 231, 0.15);
+            }
+            
+            /* Overlay when menu is open */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(5px);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 25px;
+            }
+            
+            #home {
+                padding: 100px 0 80px;
+            }
+            
+            #home h1 {
+                font-size: 2.2rem;
+            }
+            
+            #home p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay for mobile menu -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">SALIH <span>GAME DEV</span></div>
+                
+                <ul class="nav-links">
+                    <li><a href="#" class="active" onclick="showSection('home')"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" onclick="showSection('games')"><i class="fas fa-gamepad"></i> Games</a></li>
+                    <li><a href="#" onclick="showSection('about')"><i class="fas fa-user"></i> About</a></li>
+                    <li><a href="#" onclick="showSection('login')"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="#" onclick="showSection('register')" class="btn"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                </ul>
+                
+                <button class="mobile-nav-btn" id="mobileNavBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home/Hero Section -->
+    <section id="home">
+        <div class="container">
+            <h1>NEXUSPLAY GAMES</h1>
+            <p>Discover and download premium Unity games created by Salih. Experience unique gameplay, stunning visuals, and immersive stories.</p>
+            <div class="hero-buttons">
+                <a href="#" onclick="showSection('games')" class="btn"><i class="fas fa-download"></i> Browse Games</a>
+                <a href="#" onclick="showSection('about')" class="btn btn-secondary"><i class="fas fa-user"></i> About Developer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Featured Games</h2>
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card">
+                    <div class="game-img">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <div class="game-content">
+                        <h3>Dragon's Odyssey</h3>
+                        <p>Embark on an epic journey as a young dragon rider. Explore vast landscapes, battle fearsome enemies, and uncover ancient secrets.</p>
+                        <a href="LINK_TO_YOUR_GAME_BUILD_1.zip" class="btn"><i class="fas fa-download"></i> Download</a>
+                        <div class="game-meta">
+                            <span><i class="fas fa-clock"></i> 10+ hours</span>
+                            <span><i class="fas fa-star"></i> 4.8/5</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 2 -->
+                <div class="game-card">
+                    <div class="game-img">
+                        <i class="fas fa-space-shuttle"></i>
+                    </div>
+                    <div class="game-content">
+                        <h3>Cosmic Frontier</h3>
+                        <p>Command your starship through uncharted galaxies. Engage in space combat, trade resources, and build your interstellar empire.</p>
+                        <a href="LINK_TO_YOUR_GAME_BUILD_2.zip" class="btn"><i class="fas fa-download"></i> Download</a>
+                        <div class="game-meta">
+                            <span><i class="fas fa-clock"></i> 15+ hours</span>
+                            <span><i class="fas fa-star"></i> 4.9/5</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 3 -->
+                <div class="game-card">
+                    <div class="game-img">
+                        <i class="fas fa-dungeon"></i>
+                    </div>
+                    <div class="game-content">
+                        <h3>Shadow Crypt</h3>
+                        <p>Navigate through dark dungeons filled with traps and treasures. Use stealth and strategy to defeat enemies and solve puzzles.</p>
+                        <a href="LINK_TO_YOUR_GAME_BUILD_3.zip" class="btn"><i class="fas fa-download"></i> Download</a>
+                        <div class="game-meta">
+                            <span><i class="fas fa-clock"></i> 8+ hours</span>
+                            <span><i class="fas fa-star"></i> 4.7/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="hidden">
+        <div class="container">
+            <h2 class="section-title">About The Developer</h2>
+            <div class="about-content">
+                <div class="profile-img">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2>Salih - Unity Game Developer</h2>
+                <p>Hello! I'm Salih, a passionate Unity game developer with over 5 years of experience creating immersive gaming experiences. I specialize in 3D game development, interactive storytelling, and optimizing gameplay mechanics.</p>
+                <p>My journey in game development started during my computer science studies, and since then I've been dedicated to mastering the art of creating engaging games that players love.</p>
+                <p>When I'm not coding, you can find me playing games for inspiration, learning new techniques, or exploring other creative outlets like digital art and music composition.</p>
+                <p>I believe that games are a powerful medium for storytelling and creating memorable experiences. Each game I develop is a new adventure that I'm excited to share with the world.</p>
+                <p>Feel free to reach out if you have any questions, feedback, or just want to chat about game development!</p>
+                <p>Email: <a href="mailto:silahxshort@gmail.com">silahxshort@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section id="login" class="hidden">
+        <div class="container">
+            <div class="auth-container">
+                <h2>Login to Your Account</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;"><i class="fas fa-sign-in-alt"></i> Login</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="showSection('register')">Register here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section id="register" class="hidden">
+        <div class="container">
+            <div class="auth-container">
+                <h2>Create Your Account</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regUsername">Username</label>
+                        <input type="text" id="regUsername" required placeholder="Choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" required placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword">Confirm Password</label>
+                        <input type="password" id="regConfirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;"><i class="fas fa-user-plus"></i> Register</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="showSection('login')">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NexusPlay Games</h3>
+                    <p>Download and enjoy premium Unity games developed by Salih. Experience unique gameplay, stunning visuals, and immersive stories.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#" onclick="showSection('home')">Home</a>
+                    <a href="#" onclick="showSection('games')">Games</a>
+                    <a href="#" onclick="showSection('about')">About</a>
+                    <a href="#" onclick="showSection('login')">Login</a>
+                    <a href="#" onclick="showSection('register')">Register</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <a href="#">FAQ</a>
+                    <a href="#">System Requirements</a>
+                    <a href="#">Contact Support</a>
+                    <a href="#">Refund Policy</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 NexusPlay Games by Salih. All rights reserved.</p>
+                <p>Contact: <a href="mailto:silahxshort@gmail.com">silahxshort@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Show/hide sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find and activate the corresponding nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.getAttribute('onclick') === `showSection('${sectionId}')`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu if open
+            closeMobileMenu();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Form handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login functionality would be implemented with a backend system.');
+            // Here you would typically send the data to a server
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            alert('Registration functionality would be implemented with a backend system.');
+            // Here you would typically send the data to a server
+        });
+        
+        // Back to top button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Mobile navigation
+        const mobileNavBtn = document.getElementById('mobileNavBtn');
+        const navLinks = document.querySelector('.nav-links');
+        const overlay = document.getElementById('overlay');
+        
+        function toggleMobileMenu() {
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        function closeMobileMenu() {
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        mobileNavBtn.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Show home section by default
+        showSection('home');
+    </script>
+</body>
+</html>
